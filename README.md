@@ -1,56 +1,57 @@
-# Proyecto: Manejo de Excepciones en Aplicación de Galería de Fotos
+# Proyecto: Manejo de Excepciones en una Galería de Fotos
 
-Este proyecto tiene como objetivo implementar el manejo de excepciones personalizadas en una aplicación que gestiona una galería de fotos. Se controla que no se puedan asignar valores inválidos a los atributos de ancho y alto de las fotos, y se lanza una excepción personalizada (`DimensionError`) cuando los valores ingresados no son válidos.
+Este proyecto tiene como objetivo la implementación de excepciones personalizadas en una aplicación que gestiona fotos. La aplicación controla los valores de ancho y alto de las fotos, lanzando una excepción propia (`DimensionError`) si dichos valores no cumplen con los límites establecidos. 
+
+El proyecto está basado en los requerimientos de un desafío de manejo de excepciones, en el cual se especifica que los valores de las dimensiones de las fotos deben estar entre 1 y un valor máximo (`MAX`).
 
 ## Estructura del Proyecto
 
-El proyecto se organiza de la siguiente manera:
+El proyecto se organiza en los siguientes archivos:
 
-proyecto_galeria_fotos │ ├── 📄 error.py # Definición de la excepción personalizada DimensionError. ├── 📄 foto.py # Clase Foto con manejo de excepciones en los atributos ancho y alto. └── 📄 README.md # Descripción del proyecto y detalles de implementación.
+📁 proyecto_galeria_fotos │ ├── 📄 error.py # Definición de la excepción personalizada DimensionError. ├── 📄 apoyo_desafio.py# Clase Foto con validación de dimensiones. └── 📄 main.py # Archivo para ejecutar pruebas.
 
-
-
-
-## Descripción de Archivos
+## Descripción de los Archivos
 
 ### `error.py`
 
-Este archivo contiene la definición de la excepción personalizada `DimensionError`. Esta excepción es lanzada cuando los valores de ancho o alto de una foto no cumplen con las restricciones establecidas. 
+Este archivo contiene la definición de la excepción personalizada `DimensionError`. La excepción es utilizada para manejar errores relacionados con las dimensiones (ancho y alto) de las fotos, lanzándose cuando los valores ingresados no cumplen con los requisitos.
 
 - **Atributos**:
-  - `mensaje`: Descripción del error.
-  - `dimension`: (Opcional) Dimensión afectada (`ancho` o `alto`).
+  - `mensaje`: Describe el error.
+  - `dimension`: (Opcional) La dimensión que causó el error (ancho o alto).
   - `maximo`: (Opcional) Valor máximo permitido para la dimensión.
-  
+
 - **Métodos**:
-  - `__init__(mensaje, dimension=None, maximo=None)`: Constructor que inicializa los atributos de la excepción.
-  - `__str__()`: Sobrecarga del método que devuelve un mensaje detallado si se proporcionan los atributos `dimension` y `maximo`.
+  - `__str__()`: Retorna un mensaje detallado del error. Si solo se proporciona un mensaje, usa el método de la clase base `Exception`.
 
-### `foto.py`
+### `apoyo_desafio.py`
 
-Este archivo define la clase `Foto`, que representa una foto con atributos de `ancho` y `alto`. Se asegura que los valores de estos atributos sean válidos mediante el uso de la excepción `DimensionError`.
+Este archivo define la clase `Foto`, que representa una foto con atributos de ancho, alto y ruta. El control de los valores de ancho y alto está implementado en los setters, donde se lanzan excepciones si los valores están fuera de los límites permitidos.
 
 - **Atributos**:
-  - `MAX`: Define el valor máximo permitido para las dimensiones de la foto.
-  - `ancho` y `alto`: Representan las dimensiones de la foto y están protegidos mediante setters.
+  - `MAX`: Valor máximo permitido para el ancho y el alto (2500).
+  - `ancho` y `alto`: Atributos que representan las dimensiones de la foto.
 
 - **Métodos**:
-  - `ancho.setter`: Valida el valor de `ancho` y lanza una excepción si no cumple con las restricciones.
-  - `alto.setter`: Valida el valor de `alto` y lanza una excepción si no cumple con las restricciones.
- 
-  ## Ejecución del Proyecto
+  - `ancho.setter`: Valida el valor de ancho, lanzando una excepción `DimensionError` si el valor es menor a 1 o mayor a `MAX`.
+  - `alto.setter`: Valida el valor de alto, lanzando una excepción `DimensionError` si el valor es menor a 1 o mayor a `MAX`.
 
-Para ejecutar el proyecto, puedes importar la clase `Foto` y la excepción `DimensionError` en un archivo de Python. Aquí tienes un ejemplo básico de uso:
+## Ejecución del Proyecto
+
+Para ejecutar el proyecto, puedes utilizar el archivo `main.py` para realizar pruebas de los distintos escenarios donde se pueden lanzar excepciones. A continuación, se presentan ejemplos básicos de uso.
+
+### Ejemplo 1: Crear una foto válida
 
 ```python
-from foto import Foto
+from apoyo_desafio import Foto
 from error import DimensionError
 
 try:
-    foto1 = Foto(500, 600)  # Crear una foto con dimensiones válidas.
-    foto1.ancho = 1200       # Intentar asignar un valor fuera de los límites.
+    foto_valida = Foto(1200, 800, 'ruta/foto.jpg')
+    print(f"Foto creada correctamente con ancho {foto_valida.ancho} y alto {foto_valida.alto}")
 except DimensionError as e:
-    print(e)  # Manejo de la excepción.
+    print(f"Error al crear la foto válida: {e}")
+
 
 
 ### Requisitos
