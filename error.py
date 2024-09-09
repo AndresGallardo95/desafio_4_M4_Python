@@ -20,18 +20,6 @@ class DimensionError(Exception):
         Si se ingresan dimension o maximo, retorna un mensaje más detallado.
     """
     def __init__(self, mensaje, dimension=None, maximo=None):
-        """
-        Constructor de la excepción DimensionError.
-
-        Parámetros:
-        -----------
-        mensaje : str
-            Mensaje que describe el error.
-        dimension : str, opcional
-            Nombre de la dimensión que causó el error (por defecto None).
-        maximo : int, opcional
-            Valor máximo permitido para la dimensión (por defecto None).
-        """
         self.mensaje = mensaje
         self.dimension = dimension
         self.maximo = maximo
